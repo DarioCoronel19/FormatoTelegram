@@ -1,6 +1,9 @@
-
 import { radioBases } from "./radioBases.js"
 import { rbDependencias } from "./rbDependencias.js"
+
+console.log("✅ Módulos cargados correctamente")
+console.log("📡 radioBases:", radioBases ? "OK" : "FALTA")
+console.log("🔗 rbDependencias:", rbDependencias ? "OK" : "FALTA")
 
 const plaza = document.getElementById("plaza")
 const radiobase = document.getElementById("radiobase")
@@ -8,6 +11,19 @@ const rbAfectadas = document.getElementById("rbAfectadas")
 const tiempo = document.getElementById("tiempoAfectacion")
 const tipoAfectacion = document.getElementById("tipoAfectacion")
 const tipoAfectacionCell = document.querySelector(".tipoAfectacionCell")
+
+// Verificar que los elementos del DOM existan
+if (!plaza || !radiobase || !rbAfectadas || !tiempo || !tipoAfectacion || !tipoAfectacionCell) {
+    console.error("❌ ERROR: No se encontraron todos los elementos del DOM necesarios")
+    console.error("Elementos encontrados:", {
+        plaza: !!plaza,
+        radiobase: !!radiobase,
+        rbAfectadas: !!rbAfectadas,
+        tiempo: !!tiempo,
+        tipoAfectacion: !!tipoAfectacion,
+        tipoAfectacionCell: !!tipoAfectacionCell
+    })
+}
 
 
 /* cargar radiobases por plaza */
