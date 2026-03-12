@@ -615,7 +615,7 @@ table tr:hover .label::after {
     border-left: none !important;
     transition: all var(--transition-base);
     position: relative;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .radiobaseCell::before {
@@ -636,19 +636,19 @@ table tr:hover .label::after {
 
 .radiobaseCell:hover {
     background: #4ade80 !important;
-    transform: scale(1.01);
     box-shadow: inset 0 0 20px rgba(34, 197, 94, 0.3);
 }
 
 /* RB Afectadas cell - Dark Green - MEJORADO para visibilidad */
 .rbAfectadasCell {
-    background: #166534 !important;
-    color: white !important;
+    background: #4ade80 !important;   /* verde claro */
+    color: #064e3b !important;        /* texto oscuro */
     font-weight: 600;
+    word-break: break-word;
     border-left: none !important;
     transition: all var(--transition-base);
     position: relative;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .rbAfectadasCell::before {
@@ -669,7 +669,7 @@ table tr:hover .label::after {
 
 .rbAfectadasCell:hover {
     background: #15803d !important;
-    transform: scale(1.01);
+    box-shadow: inset 0 0 20px rgba(34, 197, 94, 0.3);
     box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
 }
 
@@ -941,9 +941,11 @@ textarea.auto-resize {
 
 .centrado {
     text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+}
+
+.centrado select,
+.centrado input {
+    text-align: center;
 }
 
 /* Ensure inputs in centered cells are centered */
@@ -1100,4 +1102,21 @@ textarea.auto-resize {
 
 .hidden {
     display: none !important;
+}
+
+/* Fix dropdown radiobase */
+
+.radiobaseCell{
+overflow: visible !important;
+z-index: 1;
+}
+
+.radiobaseCell select{
+position: relative;
+z-index: 9999;
+}
+
+select{
+position: relative;
+z-index: 10;
 }

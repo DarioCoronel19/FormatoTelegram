@@ -11,37 +11,60 @@ const rbAfectadas = document.getElementById("rbAfectadas")
 const tiempo = document.getElementById("tiempoAfectacion")
 const tipoAfectacion = document.getElementById("tipoAfectacion")
 const tipoAfectacionCell = document.querySelector(".tipoAfectacionCell")
+const ticketNumber = document.getElementById("ticketNumber")
 
-// Verificar que los elementos del DOM existan
+const horaInicio = document.querySelectorAll(".time-input")[0]
+const horaFin = document.querySelectorAll(".time-input")[1]
+
+/* verificar elementos */
+
 if (!plaza || !radiobase || !rbAfectadas || !tiempo || !tipoAfectacion || !tipoAfectacionCell) {
     console.error("❌ ERROR: No se encontraron todos los elementos del DOM necesarios")
-    console.error("Elementos encontrados:", {
-        plaza: !!plaza,
-        radiobase: !!radiobase,
-        rbAfectadas: !!rbAfectadas,
-        tiempo: !!tiempo,
-        tipoAfectacion: !!tipoAfectacion,
-        tipoAfectacionCell: !!tipoAfectacionCell
-    })
 }
 
+/* VALIDACION CAMPOS OBLIGATORIOS */
+
+function validarCampos() {
+
+    let valido = true
+
+    const campos = [ticketNumber, plaza, tipoAfectacion]
+
+    campos.forEach(campo => {
+
+        if (!campo.value || campo.value === "Seleccionar") {
+
+            campo.style.border = "2px solid red"
+            valido = false
+
+        } else {
+
+            campo.style.border = ""
+
+        }
+
+    })
+
+    return valido
+
+}
 
 /* cargar radiobases por plaza */
 
-plaza.addEventListener("change",()=>{
+plaza.addEventListener("change", () => {
 
 const p = plaza.value
 
-radiobase.innerHTML=""
+radiobase.innerHTML = '<option value="">Seleccionar radiobase</option>'
 
-if(radioBases[p]){
+if (radioBases[p]) {
 
-radioBases[p].forEach(rb=>{
+radioBases[p].forEach(rb => {
 
-let option=document.createElement("option")
+let option = document.createElement("option")
 
-option.value=rb
-option.textContent=rb
+option.value = rb
+option.textContent = rb
 
 radiobase.appendChild(option)
 
@@ -49,29 +72,105 @@ radiobase.appendChild(option)
 
 }
 
-rbAfectadas.value=""
+rbAfectadas.value = ""
 
 })
 
+/* obtener dependencias recursivas */
 
-/* mostrar dependencias */
+function obtenerDependencias(rb, visitadas = new Set()) {
 
-radiobase.addEventListener("change",()=>{
+    if (!rbDependencias[rb]) return []
 
-const rb = radiobase.value
+    let resultado = []
 
-if(rbDependencias[rb]){
+    rbDependencias[rb].forEach(dep => {
 
-rbAfectadas.value = rbDependencias[rb].join(", ")
+        if (dep === "Incidencia Masiva") {
+            resultado = ["Incidencia Masiva"]
+            return
+        }
 
-}else{
+        if (!visitadas.has(dep)) {
 
-rbAfectadas.value=""
+            visitadas.add(dep)
+
+            resultado.push(dep)
+
+            const subDeps = obtenerDependencias(dep, visitadas)
+
+            resultado = resultado.concat(subDeps)
+
+        }
+
+    })
+
+    return resultado
 
 }
 
+/* mostrar RB afectadas */
+
+radiobase.addEventListener("change", () => {
+
+    const rb = radiobase.value
+
+    if (!rb) {
+        rbAfectadas.value = ""
+        return
+    }
+
+    const dependencias = obtenerDependencias(rb)
+
+    if (dependencias.includes("Incidencia Masiva")) {
+
+        rbAfectadas.value = "Incidencia Masiva"
+        return
+
+    }
+
+    if (dependencias.length === 0) {
+
+        rbAfectadas.value = "Sin RB afectadas"
+
+    } else {
+
+        const unicas = [...new Set(dependencias)]
+
+        rbAfectadas.value = unicas.join(", ")
+
+    }
+
 })
 
+/* CALCULO AUTOMATICO TIEMPO DE AFECTACION */
+
+function calcularTiempoAfectacion() {
+
+    const inicio = new Date(horaInicio.value)
+    const fin = new Date(horaFin.value)
+
+    if (!horaInicio.value || !horaFin.value) {
+        tiempo.value = ""
+        return
+    }
+
+    if (fin <= inicio) {
+        tiempo.value = ""
+        return
+    }
+
+    const diff = fin - inicio
+
+    const horas = Math.floor(diff / (1000 * 60 * 60))
+    const minutos = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
+
+    tiempo.value = `${horas}h ${minutos}m`
+
+}
+
+horaInicio.addEventListener("change", calcularTiempoAfectacion)
+horaFin.addEventListener("change", calcularTiempoAfectacion)
 
 /* tiempo afectacion - red for any text, yellow for "pendiente" */
 
@@ -89,17 +188,14 @@ tiempo.classList.add("pendiente")
 
 })
 
-
-/* textarea auto tamaño - solo para AVANCE y SOLUCION */
+/* textarea auto tamaño */
 
 document.querySelectorAll("#avance, #solucion").forEach(t=>{
 
 t.addEventListener("input",()=>{
 
-// Reset height to auto first
 t.style.height = "auto"
 
-// If there's content, expand to fit; otherwise reset to default 40px
 if (t.value.trim() === "") {
     t.style.height = "40px"
 } else {
@@ -110,8 +206,7 @@ if (t.value.trim() === "") {
 
 })
 
-
-/* dark mode toggle - uses data-theme attribute */
+/* dark mode toggle */
 
 window.toggleDark=function(){
 
@@ -129,16 +224,14 @@ html.setAttribute("data-theme", "dark")
 
 }
 
-
-/* Tipo de Afectación - Cambiar color según selección */
+/* Tipo de Afectación - Cambiar color */
 
 tipoAfectacion.addEventListener("change", () => {
-    // Remover todas las clases primero
+
     tipoAfectacionCell.classList.remove("total", "parcial", "sinAfectacion")
     
     const value = tipoAfectacion.value
     
-    // Si es "Seleccionar" (vacío), no aplicar ningún color
     if (value === "" || value === "Seleccionar") {
         return
     }
@@ -150,5 +243,13 @@ tipoAfectacion.addEventListener("change", () => {
     } else if (value.includes("Sin afectación")) {
         tipoAfectacionCell.classList.add("sinAfectacion")
     }
+
 })
 
+/* VALIDAR AL SALIR DEL CAMPO */
+
+[ticketNumber, plaza, tipoAfectacion].forEach(campo => {
+
+campo.addEventListener("change", validarCampos)
+
+})
