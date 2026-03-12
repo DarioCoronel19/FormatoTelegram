@@ -55,21 +55,21 @@ plaza.addEventListener("change", () => {
 
 const p = plaza.value
 
-radiobase.innerHTML = '<option value="">Seleccionar radiobase</option>'
+const datalist = document.getElementById("radiobaseDatalist")
+datalist.innerHTML = '<option value="">Selecciona o escribe RB...</option>'
 
 if (radioBases[p]) {
 
 radioBases[p].forEach(rb => {
 
-let option = document.createElement("option")
-
-option.value = rb
+const option = document.createElement("option")
+option.value = `${rb}|${p}`
 option.textContent = rb
-
-radiobase.appendChild(option)
+datalist.appendChild(option)
 
 })
 
+document.getElementById("radiobase").value = ""
 }
 
 rbAfectadas.value = ""
@@ -109,39 +109,192 @@ function obtenerDependencias(rb, visitadas = new Set()) {
 
 }
 
-/* mostrar RB afectadas */
+/* mostrar RB afectadas y autocomplete - MEJORADO */
 
-radiobase.addEventListener("change", () => {
+const datalist = document.getElementById("radiobaseDatalist")
+const rbInput = document.getElementById("radiobase")
 
-    const rb = radiobase.value
-
-    if (!rb) {
-        rbAfectadas.value = ""
-        return
+// Debounce function
+function debounce(func, delay) {
+    let timeoutId
+    return (...args) => {
+        clearTimeout(timeoutId)
+        timeoutId = setTimeout(() => func.apply(null, args), delay)
     }
+}
 
-    const dependencias = obtenerDependencias(rb)
+// Live filter SIMPLIFICADO - sin debounce temporalmente para debug
+let primeraCoincidencia = null
 
-    if (dependencias.includes("Incidencia Masiva")) {
+rbInput.addEventListener("input", () => {
 
-        rbAfectadas.value = "Incidencia Masiva"
-        return
+const texto = rbInput.value.toLowerCase().trim()
 
-    }
+const datalist = document.getElementById("radiobaseDatalist")
+datalist.innerHTML = ""
 
-    if (dependencias.length === 0) {
+if (texto.length < 1) return
 
-        rbAfectadas.value = "Sin RB afectadas"
+let resultados = []
 
-    } else {
+/* =========================
+BUSQUEDA POR PLAZA
+========================= */
 
-        const unicas = [...new Set(dependencias)]
+if (plaza.value && radioBases[plaza.value]) {
 
-        rbAfectadas.value = unicas.join(", ")
+radioBases[plaza.value].forEach(rb => {
 
-    }
+if (rb.toLowerCase().includes(texto)) {
+
+resultados.push({
+rb: rb,
+plaza: plaza.value
+})
+
+}
 
 })
+
+}
+
+/* =========================
+BUSQUEDA GLOBAL
+========================= */
+
+else{
+
+for(const pl in radioBases){
+
+radioBases[pl].forEach(rb=>{
+
+if(rb.toLowerCase().includes(texto)){
+
+resultados.push({
+rb: rb,
+plaza: pl
+})
+
+}
+
+})
+
+}
+
+}
+
+/* limitar resultados */
+
+resultados = resultados.slice(0,15)
+
+/* guardar primera coincidencia */
+
+primeraCoincidencia = resultados[0] || null
+
+/* mostrar resultados */
+
+resultados.forEach(item=>{
+
+const option = document.createElement("option")
+
+option.value = `${item.rb}|${item.plaza}`
+
+option.textContent = `${item.rb} - ${item.plaza}`
+
+datalist.appendChild(option)
+
+})
+
+})
+
+rbInput.addEventListener("keydown",(e)=>{
+
+if(e.key === "Enter" && primeraCoincidencia){
+
+e.preventDefault()
+
+rbInput.value = `${primeraCoincidencia.rb}|${primeraCoincidencia.plaza}`
+
+rbInput.dispatchEvent(new Event("change"))
+
+}
+
+})
+
+// Clear on backspace to empty
+rbInput.addEventListener("keydown", (e) => {
+    if (e.key === "Backspace" && rbInput.value === "") {
+        rbAfectadas.value = ""
+    }
+})
+
+// Handle selection - MEJORADO
+rbInput.addEventListener("change", () => {
+
+const fullValue = rbInput.value
+
+const parts = fullValue.split("|")
+
+const rbSeleccionada = parts[0]?.trim()
+
+const plazaSeleccionada = parts[1]?.trim()
+
+if(!rbSeleccionada) return
+
+/* auto completar plaza */
+
+if(plazaSeleccionada){
+
+plaza.value = plazaSeleccionada
+
+plaza.dispatchEvent(new Event("change"))
+
+}
+
+/* calcular dependencias */
+
+const dependencias = obtenerDependencias(rbSeleccionada)
+
+if (dependencias.includes("Incidencia Masiva")) {
+
+rbAfectadas.value = "🔴 INCIDENCIA MASIVA"
+
+return
+
+}
+
+if (dependencias.length === 0) {
+
+rbAfectadas.value = "✅ Sin RBs afectadas"
+
+}else{
+
+const unicas = [...new Set(dependencias)].sort()
+
+rbAfectadas.value = unicas.join(", ")
+
+}
+
+/* colores por cantidad */
+
+const tdAfectadas = rbAfectadas.parentElement
+
+tdAfectadas.classList.remove("afectacion-media","afectacion-grande")
+
+const cantidad = rbAfectadas.value.split(",").filter(Boolean).length
+
+if(cantidad >=4 && cantidad <=10){
+
+tdAfectadas.classList.add("afectacion-media")
+
+}else if(cantidad >10){
+
+tdAfectadas.classList.add("afectacion-grande")
+
+}
+
+})
+
 
 /* CALCULO AUTOMATICO TIEMPO DE AFECTACION */
 
@@ -253,3 +406,17 @@ tipoAfectacion.addEventListener("change", () => {
 campo.addEventListener("change", validarCampos)
 
 })
+
+/* ============================
+BUSCADOR GLOBAL DE RADIOBASES
+============================ */
+
+
+
+
+
+
+
+
+
+

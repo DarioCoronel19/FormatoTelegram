@@ -708,17 +708,31 @@ input:focus, select:focus, textarea:focus {
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
-/* Custom Select */
-.custom-select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 36px;
-    cursor: pointer;
-    font-weight: 500;
+/* Custom Select - FIX ARROW TRIÁNGULO */
+.custom-select, #plaza, #tipoAfectacion {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 12px center !important;
+    background-size: 16px !important;
+    padding-right: 40px !important;
+    cursor: pointer !important;
+    font-weight: 500 !important;
+    position: relative !important;
+    z-index: 100 !important;
+}
+
+[data-theme="dark"] .custom-select, 
+[data-theme="dark"] #plaza, 
+[data-theme="dark"] #tipoAfectacion {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+}
+
+/* Fallback arrow para browsers antiguos */
+.custom-select::-ms-expand, #plaza::-ms-expand, #tipoAfectacion::-ms-expand {
+    display: none !important;
 }
 
 .custom-select:hover {
@@ -1106,9 +1120,15 @@ textarea.auto-resize {
 
 /* Fix dropdown radiobase */
 
-.radiobaseCell{
-overflow: visible !important;
-z-index: 1;
+.radiobaseCell {
+    overflow: visible !important;
+    z-index: 1000 !important;
+    position: relative !important;
+}
+
+.radiobaseCell input {
+    pointer-events: auto !important;
+    z-index: 1001 !important;
 }
 
 .radiobaseCell select{
@@ -1119,4 +1139,61 @@ z-index: 9999;
 select{
 position: relative;
 z-index: 10;
+}
+
+.search-input{
+width:100%;
+padding:8px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+.search-results{
+position:absolute;
+background:white;
+border:1px solid #ddd;
+max-height:200px;
+overflow-y:auto;
+width:300px;
+z-index:1000;
+display:none;
+}
+
+.search-results div{
+padding:6px 10px;
+cursor:pointer;
+}
+
+.search-results div:hover{
+background:#e5e7eb;
+}
+
+.rbAfectadasCell{
+background:#86efac !important;
+color:#14532d !important;
+font-weight:600;
+word-break:break-word;
+}
+
+.afectacion-media{
+background:#fde047 !important;
+color:#78350f !important;
+}
+
+.afectacion-grande{
+background:#f87171 !important;
+color:#7f1d1d !important;
+}
+
+.search-input{
+width:100%;
+padding:8px;
+border-radius:6px;
+border:1px solid #d1d5db;
+font-size:14px;
+}
+
+.search-input:focus{
+outline:none;
+border-color:#2563eb;
 }
