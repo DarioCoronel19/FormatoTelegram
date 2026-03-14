@@ -129,9 +129,25 @@ function debounce(func, delay) {
 // Live filter SIMPLIFICADO - sin debounce temporalmente para debug
 let primeraCoincidencia = null
 
+function resaltarCoincidencia(texto, busqueda){
+
+const regex = new RegExp(`(${busqueda})`, "gi")
+
+return texto.replace(regex,'<span class="rb-highlight">$1</span>')
+
+}
+
+function normalizarTexto(texto){
+return texto
+.toLowerCase()
+.normalize("NFD")
+.replace(/[\u0300-\u036f]/g,"")
+}
+
 rbInput.addEventListener("input", () => {
 
-const texto = rbInput.value.toLowerCase().trim()
+const textoOriginal = rbInput.value.trim()
+const texto = normalizarTexto(textoOriginal)
 
 /* ocultar listado si está vacío */
 
@@ -154,7 +170,9 @@ if (plaza.value && radioBases[plaza.value]) {
 
 radioBases[plaza.value].forEach(rb => {
 
-if (rb.toLowerCase().includes(texto)) {
+const rbNormalizada = normalizarTexto(rb)
+
+if (rbNormalizada.includes(texto)) {
 
 resultados.push({
 rb: rb,
@@ -177,7 +195,9 @@ for(const pl in radioBases){
 
 radioBases[pl].forEach(rb=>{
 
-if(rb.toLowerCase().includes(texto)){
+const rbNormalizada = normalizarTexto(rb)
+
+if(rbNormalizada.includes(texto)){
 
 resultados.push({
 rb: rb,
@@ -193,6 +213,21 @@ plaza: pl
 }
 
 /* limitar resultados */
+
+resultados.sort((a,b)=>{
+
+const aNormal = normalizarTexto(a.rb)
+const bNormal = normalizarTexto(b.rb)
+
+const aEmpieza = aNormal.startsWith(texto)
+const bEmpieza = bNormal.startsWith(texto)
+
+if(aEmpieza && !bEmpieza) return -1
+if(!aEmpieza && bEmpieza) return 1
+
+return aNormal.indexOf(texto) - bNormal.indexOf(texto)
+
+})
 
 resultados = resultados.slice(0,15)
 
@@ -228,7 +263,11 @@ if (rbListado) {
 
     div.dataset.plaza = item.plaza
 
-    div.innerHTML = `${item.rb} <span style="opacity:0.6; font-size:0.85em;">- ${item.plaza}</span>`  // "RB Celaya - Celaya" format
+    const rbResaltada = resaltarCoincidencia(item.rb, textoOriginal)
+
+    div.innerHTML = `${rbResaltada} <span class="rb-plaza">- ${item.plaza}</span>`  
+    
+    // "RB Celaya - Celaya" format
 
     div.addEventListener("click", () => {
       rbInput.value = item.rb  // Display ONLY RB name
@@ -460,24 +499,3 @@ rbListado.innerHTML=""
 
 })
 
-const resetForm = document.getElementById("resetForm")
-
-resetForm.addEventListener("click",()=>{
-
-const form = document.getElementById("reporteForm")
-
-form.reset()
-
-rbListado.innerHTML=""
-
-rbAfectadas.value=""
-
-})
-
-const btnEliminar = document.getElementById("resetForm")
-
-btnEliminar.addEventListener("click", () => {
-
-location.reload()
-
-})
