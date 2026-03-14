@@ -133,8 +133,16 @@ rbInput.addEventListener("input", () => {
 
 const texto = rbInput.value.toLowerCase().trim()
 
+/* ocultar listado si está vacío */
 
-if (texto.length < 1) return
+if (texto.length < 1) {
+
+rbListado.innerHTML = ""
+rbListado.style.display = "none"
+
+return
+
+}
 
 let resultados = []
 
@@ -188,6 +196,14 @@ plaza: pl
 
 resultados = resultados.slice(0,15)
 
+if(resultados.length === 0){
+
+rbListado.innerHTML = ""
+rbListado.style.display = "none"
+return
+
+}
+
 /* guardar primera coincidencia */
 
 primeraCoincidencia = resultados[0] || null
@@ -197,6 +213,8 @@ primeraCoincidencia = resultados[0] || null
 const rbListado = document.getElementById("rbListado")
 
 if (rbListado) {
+
+  rbListado.style.display = "block"
 
   rbListado.innerHTML = ""
 
@@ -432,82 +450,6 @@ campo.addEventListener("change", validarCampos)
 /* ============================
 BUSCADOR GLOBAL DE RADIOBASES
 ============================ */
-
-function obtenerTodasRB(){
-
-let lista=[]
-
-if(plaza.value && radioBases[plaza.value]){
-
-radioBases[plaza.value].forEach(rb=>{
-
-lista.push({rb:rb,plaza:plaza.value})
-
-})
-
-}else{
-
-for(const pl in radioBases){
-
-radioBases[pl].forEach(rb=>{
-
-lista.push({rb:rb,plaza:pl})
-
-})
-
-}
-
-}
-
-return lista
-
-}
-
-function mostrarRBs(lista){
-
-rbListado.innerHTML=""
-
-lista.forEach(item=>{
-
-const div=document.createElement("div")
-
-div.className="rb-listado-item"
-
-div.dataset.rb=item.rb
-div.dataset.plaza=item.plaza
-
-div.innerHTML=`${item.rb} <span style="opacity:0.6;font-size:0.85em">- ${item.plaza}</span>`
-
-div.onclick=()=>{
-
-rbInput.value=item.rb
-rbInput.dataset.selectedRb=item.rb
-rbInput.dataset.selectedPlaza=item.plaza
-
-rbListado.innerHTML=""
-
-rbInput.dispatchEvent(new Event("change"))
-
-}
-
-rbListado.appendChild(div)
-
-})
-
-}
-
-rbToggle.addEventListener("click",()=>{
-
-mostrarRBs(obtenerTodasRB())
-
-})
-
-rbInput.addEventListener("click",()=>{
-
-mostrarRBs(obtenerTodasRB())
-
-})
-
 document.addEventListener("click",(e)=>{
 
 if(!e.target.closest(".radiobaseCell")){
@@ -515,5 +457,27 @@ if(!e.target.closest(".radiobaseCell")){
 rbListado.innerHTML=""
 
 }
+
+})
+
+const resetForm = document.getElementById("resetForm")
+
+resetForm.addEventListener("click",()=>{
+
+const form = document.getElementById("reporteForm")
+
+form.reset()
+
+rbListado.innerHTML=""
+
+rbAfectadas.value=""
+
+})
+
+const btnEliminar = document.getElementById("resetForm")
+
+btnEliminar.addEventListener("click", () => {
+
+location.reload()
 
 })

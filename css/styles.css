@@ -731,7 +731,7 @@ input:focus, select:focus, textarea:focus {
 
 .radiobase-input {
     padding: 4px 40px 4px 12px !important;
-    text-align: left !important;
+    text-align: center !important;
     pointer-events: auto !important;
 }
 
@@ -1305,63 +1305,9 @@ opacity:0.7;
 opacity:1;
 }
 
-/* listado */
-
-.rb-listado{
-
-position:absolute;
-width:100%;
-max-height:220px;
-
-overflow-y:auto;
-
-background:#1f2937;
-
-border-radius:8px;
-
-margin-top:5px;
-
-box-shadow:0 6px 16px rgba(0,0,0,0.4);
-
-z-index:999;
-
-}
-
-/* item */
-
-.rb-listado-item{
-
-padding:10px;
-
-cursor:pointer;
-
-transition:0.2s;
-
-}
-
-/* hover azul */
-
-.rb-listado-item:hover{
-
-background:#2563eb;
-
-}
-
 /* ============================
 RADIOBASE DROPDOWN
 ============================ */
-
-.rb-wrapper{
-position:relative;
-display:flex;
-align-items:center;
-}
-
-.radiobase-input{
-width:100%;
-text-align:center;
-padding-right:35px;
-}
 
 .rb-toggle{
 position:absolute;
@@ -1393,5 +1339,15 @@ transition:0.2s;
 }
 
 .rb-listado-item:hover{
-background:#2563eb;
+background:#2563eb;;
+color:inherit;
+}
+
+.radiobase-input{
+appearance:textfield !important;
+background-image:none !important;
+}
+
+.rb-wrapper i{
+display:none !important;
 }
