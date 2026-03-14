@@ -155,6 +155,8 @@ if (texto.length < 1) {
 
 rbListado.innerHTML = ""
 rbListado.style.display = "none"
+primeraCoincidencia = null
+rbAfectadas.value = ""
 
 return
 
@@ -285,21 +287,35 @@ if (rbListado) {
 
 })
 
-rbInput.addEventListener("keydown",(e)=>{
-  if(e.key === "Enter" && primeraCoincidencia){
-    e.preventDefault()
-    rbInput.value = primeraCoincidencia.rb  // Display name only
-    rbInput.dataset.selectedRb = primeraCoincidencia.rb
-    rbInput.dataset.selectedPlaza = primeraCoincidencia.plaza
-    rbInput.dispatchEvent(new Event("change"))
-  }
+rbInput.addEventListener("keydown", (e) => {
+
+if (e.key === "Enter" && primeraCoincidencia) {
+
+e.preventDefault()
+
+rbInput.value = primeraCoincidencia.rb
+rbInput.dataset.selectedRb = primeraCoincidencia.rb
+rbInput.dataset.selectedPlaza = primeraCoincidencia.plaza
+
+rbListado.innerHTML = ""      // limpia resultados
+rbListado.style.display="none" // oculta lista
+
+}
+
 })
 
 // Clear on backspace to empty
-rbInput.addEventListener("keydown", (e) => {
-    if (e.key === "Backspace" && rbInput.value === "") {
-        rbAfectadas.value = ""
-    }
+rbInput.addEventListener("keydown",(e)=>{
+
+if(e.key === "Backspace" && rbInput.value.length <= 1){
+
+rbListado.innerHTML = ""
+rbListado.style.display = "none"
+rbAfectadas.value = ""
+primeraCoincidencia = null
+
+}
+
 })
 
 // Handle selection - MEJORADO
