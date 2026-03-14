@@ -114,6 +114,9 @@ function obtenerDependencias(rb, visitadas = new Set()) {
 const datalist = document.getElementById("radiobaseDatalist")
 const rbInput = document.getElementById("radiobase")
 
+const rbListado = document.getElementById("rbListado")
+const rbToggle = document.getElementById("rbToggle")
+
 // Debounce function
 function debounce(func, delay) {
     let timeoutId
@@ -130,8 +133,6 @@ rbInput.addEventListener("input", () => {
 
 const texto = rbInput.value.toLowerCase().trim()
 
-const datalist = document.getElementById("radiobaseDatalist")
-datalist.innerHTML = ""
 
 if (texto.length < 1) return
 
@@ -191,20 +192,6 @@ resultados = resultados.slice(0,15)
 
 primeraCoincidencia = resultados[0] || null
 
-/* mostrar resultados en datalist Y listado visible */
-
-resultados.forEach(item=>{
-
-const option = document.createElement("option")
-
-option.value = `${item.rb}|${item.plaza}`
-
-option.textContent = `${item.rb} - ${item.plaza}`
-
-datalist.appendChild(option)
-
-})
-
 /* Listado visible - NUEVO */
 
 const rbListado = document.getElementById("rbListado")
@@ -223,16 +210,14 @@ if (rbListado) {
 
     div.dataset.plaza = item.plaza
 
-    div.innerHTML = `📡 ${item.rb} <span style="opacity:0.7;font-size:12px;">- ${item.plaza}</span>`
+    div.innerHTML = `${item.rb} <span style="opacity:0.6; font-size:0.85em;">- ${item.plaza}</span>`  // "RB Celaya - Celaya" format
 
     div.addEventListener("click", () => {
-
-      rbInput.value = `${item.rb}|${item.plaza}`
-
+      rbInput.value = item.rb  // Display ONLY RB name
+      rbInput.dataset.selectedRb = item.rb
+      rbInput.dataset.selectedPlaza = item.plaza
       rbInput.dispatchEvent(new Event("change"))
-
-      rbListado.innerHTML = "" // Ocultar lista
-
+      rbListado.innerHTML = "" // Hide list
     })
 
     rbListado.appendChild(div)
@@ -244,17 +229,13 @@ if (rbListado) {
 })
 
 rbInput.addEventListener("keydown",(e)=>{
-
-if(e.key === "Enter" && primeraCoincidencia){
-
-e.preventDefault()
-
-rbInput.value = `${primeraCoincidencia.rb}|${primeraCoincidencia.plaza}`
-
-rbInput.dispatchEvent(new Event("change"))
-
-}
-
+  if(e.key === "Enter" && primeraCoincidencia){
+    e.preventDefault()
+    rbInput.value = primeraCoincidencia.rb  // Display name only
+    rbInput.dataset.selectedRb = primeraCoincidencia.rb
+    rbInput.dataset.selectedPlaza = primeraCoincidencia.plaza
+    rbInput.dispatchEvent(new Event("change"))
+  }
 })
 
 // Clear on backspace to empty
@@ -267,29 +248,34 @@ rbInput.addEventListener("keydown", (e) => {
 // Handle selection - MEJORADO
 rbInput.addEventListener("change", () => {
 
-const fullValue = rbInput.value
+  // FIXED: Use dataset for EXACT dependency lookup
+  let valor = rbInput.dataset.selectedRb || rbInput.value.trim()
 
-const parts = fullValue.split("|")
+  const [rbSeleccionada, plazaDetectada] = valor.split("|")
+  const plazaSeleccionada = rbInput.dataset.selectedPlaza || plazaDetectada
 
-const rbSeleccionada = parts[0]?.trim()
+  console.log("RB seleccionada:", rbSeleccionada)
+  console.log("Dependencias encontradas:", rbDependencias[rbSeleccionada])
+  console.log("Valor input:", rbInput.value)
+  console.log("Dataset RB:", rbInput.dataset.selectedRb)
+  console.log("Dataset Plaza:", rbInput.dataset.selectedPlaza)
+  console.log("RB usada para dependencias:", rbSeleccionada)
+  console.log("Dependencias:", rbDependencias[rbSeleccionada])
 
-const plazaSeleccionada = parts[1]?.trim()
+  // console.log('🔍 DEBUG change:', {rbSeleccionada, plazaSeleccionada, hasDeps: !!rbDependencias[rbSeleccionada]})  // Remove debug
 
-if(!rbSeleccionada) return
+  if(!rbSeleccionada) return
 
-/* auto completar plaza */
+  /* auto completar plaza */
+  if(plazaSeleccionada){
+    plaza.value = plazaSeleccionada
+    if(plaza.value !== plazaSeleccionada){
+    plaza.value = plazaSeleccionada
+    }
+  }
 
-if(plazaSeleccionada){
-
-plaza.value = plazaSeleccionada
-
-plaza.dispatchEvent(new Event("change"))
-
-}
-
-/* calcular dependencias */
-
-const dependencias = obtenerDependencias(rbSeleccionada)
+  /* calcular dependencias */
+  const dependencias = obtenerDependencias(rbSeleccionada)
 
 if (dependencias.includes("Incidencia Masiva")) {
 
@@ -447,12 +433,87 @@ campo.addEventListener("change", validarCampos)
 BUSCADOR GLOBAL DE RADIOBASES
 ============================ */
 
+function obtenerTodasRB(){
 
+let lista=[]
 
+if(plaza.value && radioBases[plaza.value]){
 
+radioBases[plaza.value].forEach(rb=>{
 
+lista.push({rb:rb,plaza:plaza.value})
 
+})
 
+}else{
 
+for(const pl in radioBases){
 
+radioBases[pl].forEach(rb=>{
 
+lista.push({rb:rb,plaza:pl})
+
+})
+
+}
+
+}
+
+return lista
+
+}
+
+function mostrarRBs(lista){
+
+rbListado.innerHTML=""
+
+lista.forEach(item=>{
+
+const div=document.createElement("div")
+
+div.className="rb-listado-item"
+
+div.dataset.rb=item.rb
+div.dataset.plaza=item.plaza
+
+div.innerHTML=`${item.rb} <span style="opacity:0.6;font-size:0.85em">- ${item.plaza}</span>`
+
+div.onclick=()=>{
+
+rbInput.value=item.rb
+rbInput.dataset.selectedRb=item.rb
+rbInput.dataset.selectedPlaza=item.plaza
+
+rbListado.innerHTML=""
+
+rbInput.dispatchEvent(new Event("change"))
+
+}
+
+rbListado.appendChild(div)
+
+})
+
+}
+
+rbToggle.addEventListener("click",()=>{
+
+mostrarRBs(obtenerTodasRB())
+
+})
+
+rbInput.addEventListener("click",()=>{
+
+mostrarRBs(obtenerTodasRB())
+
+})
+
+document.addEventListener("click",(e)=>{
+
+if(!e.target.closest(".radiobaseCell")){
+
+rbListado.innerHTML=""
+
+}
+
+})

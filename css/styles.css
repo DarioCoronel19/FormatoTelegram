@@ -1242,14 +1242,20 @@ border-color:#2563eb;
 }
 
 .rb-listado-item {
-  padding: 8px 12px;
+  padding: 12px 16px;  /* Native select padding */
   cursor: pointer;
-  border-bottom: 1px solid rgba(0,0,0,0.05);
+  border-bottom: 1px solid var(--border-light);
   transition: all var(--transition-fast);
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  font-size: 14px;  /* Match input font */
+  font-weight: 500;
+  background: transparent;
+  color: var(--text-primary);
+}
+
+.rb-listado-item:hover {
+  background: var(--border-light);  /* Native select hover */
+  color: var(--text-primary);
+  padding-left: 20px;
 }
 
 [data-theme="dark"] .rb-listado-item {
@@ -1268,4 +1274,124 @@ border-color:#2563eb;
 
 .rb-listado:empty {
   display: none;
+}
+
+/* contenedor input + flecha */
+
+.rb-wrapper{
+position:relative;
+display:flex;
+align-items:center;
+}
+
+/* input */
+
+.radiobase-input{
+width:100%;
+text-align:center;
+padding-right:35px;
+}
+
+/* flecha */
+
+.rb-toggle{
+position:absolute;
+right:10px;
+cursor:pointer;
+opacity:0.7;
+}
+
+.rb-toggle:hover{
+opacity:1;
+}
+
+/* listado */
+
+.rb-listado{
+
+position:absolute;
+width:100%;
+max-height:220px;
+
+overflow-y:auto;
+
+background:#1f2937;
+
+border-radius:8px;
+
+margin-top:5px;
+
+box-shadow:0 6px 16px rgba(0,0,0,0.4);
+
+z-index:999;
+
+}
+
+/* item */
+
+.rb-listado-item{
+
+padding:10px;
+
+cursor:pointer;
+
+transition:0.2s;
+
+}
+
+/* hover azul */
+
+.rb-listado-item:hover{
+
+background:#2563eb;
+
+}
+
+/* ============================
+RADIOBASE DROPDOWN
+============================ */
+
+.rb-wrapper{
+position:relative;
+display:flex;
+align-items:center;
+}
+
+.radiobase-input{
+width:100%;
+text-align:center;
+padding-right:35px;
+}
+
+.rb-toggle{
+position:absolute;
+right:10px;
+cursor:pointer;
+opacity:0.7;
+}
+
+.rb-toggle:hover{
+opacity:1;
+}
+
+.rb-listado{
+position:absolute;
+width:100%;
+max-height:220px;
+overflow-y:auto;
+background:#1f2937;
+border-radius:8px;
+margin-top:5px;
+box-shadow:0 6px 16px rgba(0,0,0,0.4);
+z-index:999;
+}
+
+.rb-listado-item{
+padding:10px;
+cursor:pointer;
+transition:0.2s;
+}
+
+.rb-listado-item:hover{
+background:#2563eb;
 }
