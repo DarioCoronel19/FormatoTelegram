@@ -191,7 +191,7 @@ resultados = resultados.slice(0,15)
 
 primeraCoincidencia = resultados[0] || null
 
-/* mostrar resultados */
+/* mostrar resultados en datalist Y listado visible */
 
 resultados.forEach(item=>{
 
@@ -204,6 +204,42 @@ option.textContent = `${item.rb} - ${item.plaza}`
 datalist.appendChild(option)
 
 })
+
+/* Listado visible - NUEVO */
+
+const rbListado = document.getElementById("rbListado")
+
+if (rbListado) {
+
+  rbListado.innerHTML = ""
+
+  resultados.forEach(item => {
+
+    const div = document.createElement("div")
+
+    div.className = "rb-listado-item"
+
+    div.dataset.rb = item.rb
+
+    div.dataset.plaza = item.plaza
+
+    div.innerHTML = `📡 ${item.rb} <span style="opacity:0.7;font-size:12px;">- ${item.plaza}</span>`
+
+    div.addEventListener("click", () => {
+
+      rbInput.value = `${item.rb}|${item.plaza}`
+
+      rbInput.dispatchEvent(new Event("change"))
+
+      rbListado.innerHTML = "" // Ocultar lista
+
+    })
+
+    rbListado.appendChild(div)
+
+  })
+
+}
 
 })
 
