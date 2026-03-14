@@ -297,10 +297,9 @@ body::before {
 }
 
 /* Hover effect - background turns red */
-.logo:hover {
-    background: linear-gradient(135deg, #dc2626 0%, #dc2626 100%);
-    transform: scale(1.1);
-    box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+.logo:hover{
+transform:scale(1.1);
+filter:brightness(1.1);
 }
 
 .logo:hover .fa-tower-cell {
@@ -1312,4 +1311,52 @@ text-overflow:ellipsis;
 
 .rb-listado-item:hover{
 background:var(--border-light);
+}
+
+/* Estado normal */
+.logo{
+transition:0.3s;
+color:var(--text-primary);
+}
+
+/* ================================
+ESTADOS DEL ICONO DE RADIOBASE
+================================ */
+
+/* TOTAL (rojo) ahora usa pulso */
+
+.logo.afectacion-total{
+background:linear-gradient(135deg,#ef4444,#b91c1c) !important;
+animation:pulsoRB 2s infinite;
+}
+
+/* PARCIAL (amarillo) ahora usa alerta */
+
+.logo.afectacion-parcial{
+background:linear-gradient(135deg,#facc15,#ca8a04) !important;
+animation:alertaRB 1s infinite alternate;
+}
+
+/* SIN AFECTACION */
+
+.logo.afectacion-ok{
+background:linear-gradient(135deg,#22c55e,#16a34a) !important;
+animation:none;
+}
+
+/* animaciones */
+
+@keyframes alertaRB{
+from{box-shadow:0 0 5px rgba(234,179,8,.4);}
+to{box-shadow:0 0 20px rgba(234,179,8,.9);}
+}
+
+@keyframes pulsoRB{
+0%{transform:scale(1);}
+50%{transform:scale(1.08);}
+100%{transform:scale(1);}
+}
+
+.logo.default-hover:hover{
+background:linear-gradient(135deg,#ef4444,#b91c1c);
 }

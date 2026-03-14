@@ -474,31 +474,77 @@ html.setAttribute("data-theme", "dark")
 
 /* Tipo de Afectación - Cambiar color */
 
+const icono = document.getElementById("radiobaseIcon")
+
 tipoAfectacion.addEventListener("change", () => {
 
-    tipoAfectacionCell.classList.remove("total", "parcial", "sinAfectacion")
-    
-    const value = tipoAfectacion.value
-    
-    if (value === "" || value === "Seleccionar") {
-        return
-    }
-    
-    if (value.includes("Total")) {
-        tipoAfectacionCell.classList.add("total")
-    } else if (value.includes("Parcial")) {
-        tipoAfectacionCell.classList.add("parcial")
-    } else if (value.includes("Sin afectación")) {
-        tipoAfectacionCell.classList.add("sinAfectacion")
-    }
+const icono = document.querySelector("#radiobaseIcon i")
 
-})
+/* limpiar clases */
 
-/* VALIDAR AL SALIR DEL CAMPO */
+radiobaseIcon.classList.remove(
+"afectacion-total",
+"afectacion-parcial",
+"afectacion-ok",
+"default-hover"
+)
 
-[ticketNumber, plaza, tipoAfectacion].forEach(campo => {
+tipoAfectacionCell.classList.remove(
+"total",
+"parcial",
+"sinAfectacion"
+)
 
-campo.addEventListener("change", validarCampos)
+const value = tipoAfectacion.value
+
+/* SIN SELECCION */
+
+if(value === "" || value === "Seleccionar"){
+
+icono.className = ""
+icono.classList.add("fas","fa-tower-cell")
+
+radiobaseIcon.classList.add("default-hover")
+
+return
+
+}
+
+/* TOTAL */
+
+if(value.includes("Total")){
+
+icono.className = ""
+icono.classList.add("fas","fa-tower-broadcast")
+
+radiobaseIcon.classList.add("afectacion-total")
+tipoAfectacionCell.classList.add("total")
+
+}
+
+/* PARCIAL */
+
+else if(value.includes("Parcial")){
+
+icono.className = ""
+icono.classList.add("fas","fa-triangle-exclamation")
+
+radiobaseIcon.classList.add("afectacion-parcial")
+tipoAfectacionCell.classList.add("parcial")
+
+}
+
+/* SIN AFECTACION */
+
+else if(value.includes("Sin afectación")){
+
+icono.className = ""
+icono.classList.add("fas","fa-tower-cell")
+
+radiobaseIcon.classList.add("afectacion-ok")
+tipoAfectacionCell.classList.add("sinAfectacion")
+
+}
 
 })
 
