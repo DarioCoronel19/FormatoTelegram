@@ -474,79 +474,121 @@ html.setAttribute("data-theme", "dark")
 
 /* Tipo de Afectación - Cambiar color */
 
-const icono = document.getElementById("radiobaseIcon")
+const iconoContainer = document.getElementById("radiobaseIcon")
 
 tipoAfectacion.addEventListener("change", () => {
 
-const icono = document.querySelector("#radiobaseIcon i")
+    /* limpiar clases */
+    iconoContainer.classList.remove(
+        "afectacion-total",
+        "afectacion-parcial",
+        "afectacion-ok",
+        "default-hover"
+    )
+
+    tipoAfectacionCell.classList.remove(
+        "total",
+        "parcial",
+        "sinAfectacion"
+    )
+
+    const value = tipoAfectacion.value
+
+    /* SIN SELECCION */
+    if(value === "" || value === "Seleccionar"){
+        iconoContainer.classList.add("default-hover")
+        return
+    }
+
+    /* TOTAL */
+    if(value.includes("Total")){
+        iconoContainer.classList.add("afectacion-total")
+        tipoAfectacionCell.classList.add("total")
+    }
+
+    /* PARCIAL */
+    else if(value.includes("Parcial")){
+        iconoContainer.classList.add("afectacion-parcial")
+        tipoAfectacionCell.classList.add("parcial")
+    }
+
+    /* SIN AFECTACION */
+    else if(value.includes("Sin afectación")){
+        iconoContainer.classList.add("afectacion-ok")
+        tipoAfectacionCell.classList.add("sinAfectacion")
+    }
+
+})
+
+// const icono = document.querySelector("#radiobaseIcon i")
 
 /* limpiar clases */
 
-radiobaseIcon.classList.remove(
-"afectacion-total",
-"afectacion-parcial",
-"afectacion-ok",
-"default-hover"
-)
+// radiobaseIcon.classList.remove(
+// "afectacion-total",
+// "afectacion-parcial",
+// "afectacion-ok",
+// "default-hover"
+// )
 
-tipoAfectacionCell.classList.remove(
-"total",
-"parcial",
-"sinAfectacion"
-)
+// tipoAfectacionCell.classList.remove(
+// "total",
+// "parcial",
+// "sinAfectacion"
+// )
 
-const value = tipoAfectacion.value
+// const value = tipoAfectacion.value
 
-/* SIN SELECCION */
+// // /* SIN SELECCION */
 
-if(value === "" || value === "Seleccionar"){
+// // if(value === "" || value === "Seleccionar"){
 
-icono.className = ""
-icono.classList.add("fas","fa-tower-cell")
+// // icono.className = ""
+// // icono.classList.add("fas","fa-tower-cell")
 
-radiobaseIcon.classList.add("default-hover")
+// // radiobaseIcon.classList.add("default-hover")
 
-return
+// // return
 
-}
+// // }
 
-/* TOTAL */
+// // /* TOTAL */
 
-if(value.includes("Total")){
+// // if(value.includes("Total")){
 
-icono.className = ""
-icono.classList.add("fas","fa-tower-broadcast")
+// // icono.className = ""
+// // icono.classList.add("fas","fa-tower-broadcast")
 
-radiobaseIcon.classList.add("afectacion-total")
-tipoAfectacionCell.classList.add("total")
+// // radiobaseIcon.classList.add("afectacion-total")
+// // tipoAfectacionCell.classList.add("total")
 
-}
+// // }
 
-/* PARCIAL */
+// // /* PARCIAL */
 
-else if(value.includes("Parcial")){
+// // else if(value.includes("Parcial")){
 
-icono.className = ""
-icono.classList.add("fas","fa-triangle-exclamation")
+// // icono.className = ""
+// // icono.classList.add("fas","fa-triangle-exclamation")
 
-radiobaseIcon.classList.add("afectacion-parcial")
-tipoAfectacionCell.classList.add("parcial")
+// // radiobaseIcon.classList.add("afectacion-parcial")
+// // tipoAfectacionCell.classList.add("parcial")
 
-}
+// // }
 
-/* SIN AFECTACION */
+// // /* SIN AFECTACION */
 
-else if(value.includes("Sin afectación")){
+// // else if(value.includes("Sin afectación")){
 
-icono.className = ""
-icono.classList.add("fas","fa-tower-cell")
+// // icono.className = ""
+// // icono.classList.add("fas","fa-tower-cell")
 
-radiobaseIcon.classList.add("afectacion-ok")
-tipoAfectacionCell.classList.add("sinAfectacion")
+// // radiobaseIcon.classList.add("afectacion-ok")
+// // tipoAfectacionCell.classList.add("sinAfectacion")
 
-}
+// // }
 
-})
+// // })
 
 /* ============================
 BUSCADOR GLOBAL DE RADIOBASES
