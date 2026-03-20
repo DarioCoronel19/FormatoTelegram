@@ -1360,3 +1360,61 @@ to{box-shadow:0 0 20px rgba(234,179,8,.9);}
 .logo.default-hover:hover{
 background:linear-gradient(135deg,#ef4444,#b91c1c);
 }
+
+.logo.afectacion-total .fa-tower-cell {
+    opacity: 0 !important;
+    transform: scale(0.5) rotate(90deg);
+}
+
+.logo.afectacion-total .fa-tower-broadcast {
+    opacity: 1 !important;
+    transform: scale(1) rotate(0deg);
+    color: #ffffff;
+}
+
+.logo.afectacion-total .fa-tower-cell {
+    opacity: 0 !important;
+}
+
+.logo.afectacion-total .fa-tower-broadcast {
+    opacity: 1 !important;
+}
+
+.logo.afectacion-total .fa-triangle-exclamation {
+    opacity: 0 !important;
+}
+
+.logo.afectacion-parcial .fa-tower-cell {
+    opacity: 0 !important;
+}
+
+.logo.afectacion-parcial .fa-tower-broadcast {
+    opacity: 0 !important;
+}
+
+.logo.afectacion-parcial .fa-triangle-exclamation {
+    opacity: 1 !important;
+    transform: scale(1) rotate(0deg);
+    color: #ffffff;
+}
+
+.logo.afectacion-ok .fa-tower-cell {
+    opacity: 1 !important;
+}
+
+.logo.afectacion-ok .fa-tower-broadcast,
+.logo.afectacion-ok .fa-triangle-exclamation {
+    opacity: 0 !important;
+}
+
+/* Estado base - SOLO antena normal visible */
+.logo i {
+    opacity: 0;
+    transform: scale(0.5);
+    position: absolute;
+}
+
+.logo .fa-tower-cell {
+    opacity: 1;
+    transform: scale(1);
+}
