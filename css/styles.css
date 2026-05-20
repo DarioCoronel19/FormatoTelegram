@@ -1419,3 +1419,15 @@ background:linear-gradient(135deg,#ef4444,#b91c1c);
     transform: scale(1);
 }
 
+/* ========================================
+   FIX TEXTO NEGRO EN RADIOBASES - DARK MODE
+   ======================================== */
+
+[data-theme="dark"] .radiobaseCell,
+[data-theme="dark"] .radiobaseCell input,
+[data-theme="dark"] .radiobaseCell select,
+[data-theme="dark"] .rbAfectadasCell,
+[data-theme="dark"] .rbAfectadasCell input,
+[data-theme="dark"] .rbAfectadasCell textarea {
+    color: #000000 !important;
+}

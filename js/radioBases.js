@@ -48,7 +48,32 @@ Merida:[
 "RB Chablekal",
 "RB Oncan",
 "RB Kanasin",
-"RB Merida Centro"
+"RB Merida Centro",
+"RB Francisco Montejo II",
+"RB Cholul II",
+"RB Chablekal II",
+"RB Conkal II"
+],
+
+Mexico:[
+"RB Naucalpan",
+"RB Vallejo",
+"RB Cuautitlán",
+"RB Barrientos",
+"RB Central de abastos",
+"RB Totoltepec",
+"RB Toluca 2000",
+"RB Xochimiquia",
+"RB Xalostoc",
+"Rep Chapultepec",
+"RB Tlalnepantla",
+"RB Barrientos II",
+"San Mateo",
+"RB Tizayuca",
+"Rep Atizapan",
+"Rep Lomas Verdes",
+"Rep Zona Esmeralda",
+"RB Coyotepec"
 ],
 
 Monclova:[
@@ -58,6 +83,7 @@ Monclova:[
 
 Monterrey:[
 "CORE Border Monterrey",
+"Rep Pueblo Serena",
 "RB Kristales",
 "RB Loma Larga",
 "RB Mirasur",
@@ -80,6 +106,8 @@ Monterrey:[
 "RB Montemorelos",
 "RB Nimiw",
 "RB PDA",
+"RB Pesqueria Lee",
+"RB Purisima",
 "RB Pueblo Nuevo",
 "RB Repetec",
 "RB Rojas",
@@ -87,19 +115,36 @@ Monterrey:[
 "RB Santa Rosa",
 "RB Sendero",
 "RB Estanzuela",
+"RB La Patrona",
+"RB Km 81",
 "RB Cadereyta",
+"RB Rancho Montemorelos",
 "RB Mil Encinos",
 "RB Santiago II",
+"RB Guadalupe II Silva",
+"RB Pabellon M",
 "RB Alamedas Garcia",
+"Rep Cerrito Allende",
 "RB Montesur",
 "RB Industrial Apodaca",
 "RB Hidalgo",
 "RB Huinala",
+"RB Rinconada Apodaca",
 "RB Campestre Montesur",
 "RB Puerta del Sol",
 "RB Punta Acero",
+"Rep Buena Vista",
+"Rep Libramiento Mty",
 "RB Santiago",
-"RB Torre Vetro"
+"REP-COLINAS DEL AEROPUERTO",
+"REP - RAUL MARIO TREVIÑO VILLAREAL [LOS RAMONES]",
+"REP SAN ROBERTO",
+"Rep Punta Esmeralda Sur",
+"Mikrowisp RB Rojas",
+"RB Valle de Lincoln",
+"Rep Dos Ríos",
+"RB Torre Vetro",
+"Rep Torre Alestra"
 ],
 
 NuevoLaredo:[
@@ -116,7 +161,9 @@ PiedrasNegras:[
 "RB Sispa",
 "RB Cecytec Allende",
 "RB Villa Union",
-"RB Morelos"
+"RB Morelos",
+"Rep Grupo M Allende 1",
+"Repetidor MTP Guerrero"
 ],
 
 Puebla:[
@@ -132,7 +179,8 @@ Queretaro:[
 "RB Tec100",
 "RB Tobogan",
 "RB Colorado",
-"RB Juriquilla"
+"RB Juriquilla",
+"RB Penal ll"
 ],
 
 Reynosa:[
@@ -147,25 +195,35 @@ Reynosa:[
 
 Sabinas:[
 "RB Muzquiz",
+"REP Primero de Mayo",
 "RB Sabinas",
 "RB Nueva Rosita",
-"RB Sabinas Centro"
+"RB Sabinas Centro",
+"Rep Barroteran"
 ],
 
 Saltillo:[
-"CORE Saltillo",
+"Acherbis",
 "RB Mecasa Ramos",
 "RB Coral",
 "RB Loft",
 "RB Jolla",
 "RB Ramazini",
 "RB Saltillo Oriente",
-"RB Encantada"
+"Rep Manantiales",
+"REP Santa Elena",
+"REP Saltillo Campanareo",
+"Repe Derramadero",
+"RB Encantada",
+"Rep Encantada II",
+"Rep La Cañada",
+"CORE Saltillo"
 ],
 
 SanLuisPotosi:[
 "RB Edificio Eme",
 "RB Carretera 57",
+"RB Transmaquila",
 "RB Cerro Gordo",
 "RB San Antonio TRM2"
 ],
@@ -175,6 +233,7 @@ Tampico:[
 ],
 
 Torreon:[
+"Rep Dos Naciones (interno de cliente)",
 "RB Torreón",
 "Repetidor Cerro Las Noas",
 "Rep Pastor Rouaix"

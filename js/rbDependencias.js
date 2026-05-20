@@ -97,6 +97,15 @@ export const rbDependencias = {
 "Rep Silva"
 ],
 
+"REP Dos Rios":[
+"Juarez",
+"Cadereyta",
+],
+
+"RB Juarez":[
+"Cadereyta",
+],
+
 "RB Pueblo Nuevo":[
 "Pesqueria",
 "Pesqueria Lee",
@@ -164,12 +173,37 @@ export const rbDependencias = {
 "RB Grupo Sol"
 ],
 
+"RB Cuautitlán":[
+"RB Xochimiquia",
+"RB Tizayuca",
+"RB Coyotepec"
+],
+
+"RB Xochimiquia":[
+"RB Tizayuca"
+],
+
+"RB Barrientos II":[
+"Rep Zona Esmeralda"
+],
+
+"RB Vallejo":[
+"RB Tlalnepantla",
+"Rep Atizapan",
+"Rep Lomas Verdes"
+],
+
+"RB Totoltepec":[
+"Rep Chapultepec"
+],
+
 "RB Monclova":[
 "REP Las Glorias"
 ],
 
 "RB Nuevo Laredo":[
-"RB La Cruz"
+"RB La Cruz",
+"RB Nuevo Laredo"
 ],
 
 "RB Acuna Steren":[
@@ -214,8 +248,7 @@ export const rbDependencias = {
 "RB Tobogan",
 "RB Bandera",
 "RB San Juan",
-"RB Industrial",
-"Queretaro",
+"RB Industrial Queretaro",
 "RB Penal",
 "RB Colorado",
 "RB Juriquilla",
@@ -259,7 +292,7 @@ export const rbDependencias = {
 "Rep Manantiales",
 "REP Santa Elena",
 "RB Mecasa Ramos",
-"Acherbis",
+"RB Acherbis",
 "RB Ramazini",
 "Rep La Cañada"
 ],
@@ -299,6 +332,10 @@ export const rbDependencias = {
 
 "Repetidor Cerro Las Noas":[
 "Rep Pastor Rouaix"
+],
+
+"RB Chihuahua":[
+"Chihuahua II"
 ]
 
 }
